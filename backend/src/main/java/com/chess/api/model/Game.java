@@ -13,7 +13,7 @@ import jakarta.persistence.*;
 public class Game extends BaseModel {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private long id;
+  private Long id;
 
   @Column(columnDefinition = "TEXT", nullable = false)
   private String rawPgn;
@@ -31,8 +31,8 @@ public class Game extends BaseModel {
  
   private String white;
   private String black;
-  private int whiteElo;
-  private int blackElo;
+  private Integer whiteElo;
+  private Integer blackElo;
   private String analysisVersion;
   private String engineVersion;
 
