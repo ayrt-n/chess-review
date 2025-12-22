@@ -33,7 +33,6 @@ public class Game extends BaseModel {
   private String black;
   private int whiteElo;
   private int blackElo;
-  private String result;
   private String analysisVersion;
   private String engineVersion;
 
