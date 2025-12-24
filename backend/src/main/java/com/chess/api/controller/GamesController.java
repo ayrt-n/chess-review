@@ -1,5 +1,8 @@
 package com.chess.api.controller;
 
+import java.util.List;
+
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,6 +21,12 @@ public class GamesController {
 
   public GamesController(GameService gameService) {
     this.gameService = gameService;
+  }
+
+  @GetMapping
+  public List<GameSummary> index() {
+    List<Game> games = gameService.getAll();
+    return games.stream().map(game -> new GameSummary(game)).toList();
   }
 
   @PostMapping
