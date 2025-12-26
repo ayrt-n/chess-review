@@ -23,7 +23,7 @@ public class PgnParser {
     }
 
     int lastBracketIndex = input.lastIndexOf(']');
-    String rawMoveText = (lastBracketIndex != -1) ? input.substring(lastBracketIndex + 1).trim() : input.substring(0).trim();
+    String rawMoveText = input.substring(lastBracketIndex + 1).trim();
     String moveText = Arrays.stream(rawMoveText.split("\\s+")).collect(Collectors.joining(" "));
     pgnMap.put("movetext", moveText);
 
