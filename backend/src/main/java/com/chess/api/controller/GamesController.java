@@ -30,7 +30,7 @@ public class GamesController {
 
   @GetMapping
   public List<GameSummary> index() {
-    List<Game> games = gameService.getAll();
+    List<Game> games = gameService.findAll();
     return games.stream().map(game -> new GameSummary(game)).toList();
   }
 

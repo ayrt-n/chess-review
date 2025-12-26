@@ -19,7 +19,7 @@ public class GameService {
     this.gameRepository = gameRepository;
   }
 
-  public List<Game> getAll() {
+  public List<Game> findAll() {
     return gameRepository.findAll();
   }
 
