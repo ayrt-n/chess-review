@@ -14,9 +14,11 @@ import com.chess.api.respository.GameRepository;
 @Service
 public class GameService {
   private final GameRepository gameRepository;
+  private final GameAnalysisPublisher gameAnalysisPublisher;
 
-  public GameService(GameRepository gameRepository) {
+  public GameService(GameRepository gameRepository, GameAnalysisPublisher gameAnalysisPublisher) {
     this.gameRepository = gameRepository;
+    this.gameAnalysisPublisher = gameAnalysisPublisher;
   }
 
   public List<Game> findAll() {
@@ -30,7 +32,11 @@ public class GameService {
   @Transactional
   public Game create(GameRequest request) {
     Game game = convertPgnToGame(request.pgn());
-    return gameRepository.save(game);
+    Game savedGame = gameRepository.save(game);
+
+    gameAnalysisPublisher.publishAnalysisRequest(savedGame.getId());
+
+    return savedGame;
   }
 
   private Game convertPgnToGame(String rawPgn) {
