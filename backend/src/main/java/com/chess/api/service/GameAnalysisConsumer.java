@@ -7,10 +7,14 @@ import com.chess.api.dto.GameAnalysisMessage;
 
 @Service
 public class GameAnalysisConsumer {
+  private final GameAnalysisService gameAnalysisService;
+
+  public GameAnalysisConsumer(GameAnalysisService gameAnalysisService) {
+    this.gameAnalysisService = gameAnalysisService;
+  }
+
   @RabbitListener(queues = "${chess.rabbitmq.queue.analysis}")
-  
   public void handleAnalysisRequest(GameAnalysisMessage message) {
-    System.out.println("Received analysis request for game: " + message.gameId());
+    gameAnalysisService.analyzeGame(message.gameId());
   }
 }
-
