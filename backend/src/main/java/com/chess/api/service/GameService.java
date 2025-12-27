@@ -2,6 +2,7 @@ package com.chess.api.service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -9,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.chess.api.dto.GameRequest;
 import com.chess.api.dto.Pgn;
 import com.chess.api.model.Game;
+import com.chess.api.model.MoveAnalysis;
 import com.chess.api.respository.GameRepository;
 
 @Service
@@ -42,6 +44,10 @@ public class GameService {
   private Game convertPgnToGame(String rawPgn) {
     Pgn pgn = PgnParser.parse(rawPgn);
     String hashedPgn = PgnHasher.hash(pgn);
+    List<MoveAnalysis> moveAnalysis = MoveTextParser.parse(pgn.moveText())
+                                                    .stream()
+                                                    .map(move -> new MoveAnalysis(move))
+                                                    .collect(Collectors.toList());
 
     Game game = new Game(
       rawPgn,
@@ -49,7 +55,8 @@ public class GameService {
       pgn.white(),
       pgn.whiteElo(),
       pgn.black(),
-      pgn.blackElo()
+      pgn.blackElo(),
+      moveAnalysis
     );
 
     return game;

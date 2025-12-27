@@ -42,13 +42,14 @@ public class Game extends BaseModel {
 
   public Game() {}
 
-  public Game(String rawPgn, String pgnHash, String white, int whiteElo,  String black, int blackElo) {
+  public Game(String rawPgn, String pgnHash, String white, int whiteElo,  String black, int blackElo, List<MoveAnalysis> analysis) {
     this.rawPgn = rawPgn;
     this.pgnHash = pgnHash;
     this.white = white;
     this.whiteElo = whiteElo;
     this.black = black;
     this.blackElo = blackElo;
+    this.analysis = analysis;
   }
 
   public Long getId() {
