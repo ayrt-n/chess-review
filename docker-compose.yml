@@ -33,6 +33,10 @@ services:
       timeout: 5s
       retries: 5
 
+  stockfish-engine:
+    build: ./stockfish-service
+    container_name: chess-stockfish
+
   backend:
     build: ./backend
     ports:
@@ -42,6 +46,8 @@ services:
         condition: service_healthy
       rabbitmq:
         condition: service_healthy
+      stockfish-engine:
+        condition: service_started
     environment:
       - DB_HOST=${DB_HOST}
       - DB_USER=${DB_USER}
@@ -50,6 +56,8 @@ services:
       - RABBITMQ_HOST=rabbitmq
       - RABBITMQ_USER=${RABBITMQ_USER:-guest}
       - RABBITMQ_PASS=${RABBITMQ_PASS:-guest}
+      - STOCKFISH_HOST=stockfish-engine
+      - STOCKFISH_PORT=5000
 
   frontend:
     build: ./frontend
