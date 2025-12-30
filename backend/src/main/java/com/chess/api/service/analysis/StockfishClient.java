@@ -29,12 +29,7 @@ public class StockfishClient implements AutoCloseable {
 
   public void initializeUci() throws IOException {
     out.println("uci");
-    waitFor("uciok");
-  }
 
-  public void isReady() throws IOException {
-    out.println("isready");
-    
     Pattern pattern = Pattern.compile("Stockfish\\s[0-9.]+");
     Matcher matcher = pattern.matcher("");
     String line = null;
@@ -44,15 +39,20 @@ public class StockfishClient implements AutoCloseable {
         if (matcher.find()) engineVersion = matcher.group(); 
       }
 
-      if (line.contains("readyok")) return;
+      if (line.contains("uciok")) return;
     }
 
-    throw new IOException("Connection closed by remote host before receiving: readyok");
+    throw new IOException("Connection closed by remote host before receiving: uciok");
+  }
+
+  public void isReady() throws IOException {
+    out.println("isready");
+    waitFor("readyok");
   }
 
   public StockfishEvaluation evaluate(List<String> moves) throws IOException {
     System.out.println("Evaluating...");
-    
+
     out.println("position startpos moves " + String.join(" ", moves));
     out.println("go depth " + DEPTH);
 

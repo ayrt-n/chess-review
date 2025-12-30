@@ -14,6 +14,8 @@ import com.chess.api.respository.GameRepository;
 
 @Service
 public class GameAnalysisService {
+  String ANALYSIS_VERSION = "0.1.0";
+
   private final GameRepository gameRepository;
   private final StockfishClientFactory stockfishClientFactory;
   private final MoveClassifier moveClassifier;
@@ -52,8 +54,7 @@ public class GameAnalysisService {
         lastEval = currEval;
       }
 
-      gameRepository.updateAnalysis(gameId, moves);
-      gameRepository.updateStatus(gameId, AnalysisStatus.COMPLETED);
+      gameRepository.updateAnalysis(gameId, moves, stockfishClient.getEngineVersion(), ANALYSIS_VERSION);
     } catch (Exception e) {
       gameRepository.updateStatus(gameId, AnalysisStatus.FAILED);
     }
