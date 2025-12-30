@@ -5,12 +5,12 @@ import java.util.List;
 
 public class MoveAnalysis implements Serializable {
   private String san;
-  private String uci;
 
-  private String best_san;
-  private List<String> pvSan;
-  private int evalCp;
-  private int evalCpDelta;
+  private String bestUci;
+  private List<String> pvUci;
+
+  private Integer evalCp;
+  private Integer evalMate;
 
   private String commentary;
   private MoveClassification classification;
@@ -29,44 +29,36 @@ public class MoveAnalysis implements Serializable {
     this.san = san;
   }
 
-  public String getUci() {
-    return uci;
+  public String getBestUci() {
+    return bestUci;
   }
 
-  public void setUci(String uci) {
-    this.uci = uci;
+  public void setBestUci(String bestUci) {
+    this.bestUci = bestUci;
   }
 
-  public String getBestSan() {
-    return best_san;
+  public List<String> getPvUci() {
+    return pvUci;
   }
 
-  public void setBestSan(String best_san) {
-    this.best_san = best_san;
+  public void setPvUci(List<String> pvUci) {
+    this.pvUci = pvUci;
   }
 
-  public List<String> getPvSan() {
-    return pvSan;
-  }
-
-  public void setPvSan(List<String> pv_san) {
-    this.pvSan = pv_san;
-  }
-
-  public int getEvalCp() {
+  public Integer getEvalCp() {
     return evalCp;
   }
 
-  public void setEvalCp(int eval_cp) {
-    this.evalCp = eval_cp;
+  public void setEvalCp(Integer evalCp) {
+    this.evalCp = evalCp;
   }
 
-  public int getEvalCpDelta() {
-    return evalCpDelta;
+  public Integer getEvalMate() {
+    return evalMate;
   }
 
-  public void setEvalCpDelta(int eval_cp_delta) {
-    this.evalCpDelta = eval_cp_delta;
+  public void setEvalMate(Integer evalMate) {
+    this.evalMate = evalMate;
   }
 
   public String getCommentary() {

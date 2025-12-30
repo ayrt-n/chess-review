@@ -1,4 +1,4 @@
-package com.chess.api.service;
+package com.chess.api.service.analysis;
 
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Value;

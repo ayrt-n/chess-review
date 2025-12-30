@@ -12,6 +12,7 @@ import com.chess.api.dto.Pgn;
 import com.chess.api.model.Game;
 import com.chess.api.model.MoveAnalysis;
 import com.chess.api.respository.GameRepository;
+import com.chess.api.service.analysis.GameAnalysisPublisher;
 
 @Service
 public class GameService {
