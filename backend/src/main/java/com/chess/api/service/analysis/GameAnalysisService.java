@@ -11,6 +11,8 @@ import com.chess.api.model.Game;
 import com.chess.api.model.MoveAnalysis;
 import com.chess.api.model.analysis.StockfishEvaluation;
 import com.chess.api.respository.GameRepository;
+import com.github.bhlangonijr.chesslib.Board;
+import com.github.bhlangonijr.chesslib.Side;
 
 @Service
 public class GameAnalysisService {
@@ -36,20 +38,27 @@ public class GameAnalysisService {
 
     try (StockfishClient stockfishClient = stockfishClientFactory.createClient()) {
       List<String> movesPlayed = new ArrayList<>();
+      Board board = new Board();
 
       StockfishEvaluation lastEval = stockfishClient.evaluate(movesPlayed);
 
       for (MoveAnalysis move : moves) {
-        movesPlayed.add(move.getUci());
-        StockfishEvaluation currEval = stockfishClient.evaluate(movesPlayed);
+        List<String> bestMovePlayed = new ArrayList<>(movesPlayed);
+        bestMovePlayed.add(lastEval.getBestUci());
+        StockfishEvaluation bestEval = stockfishClient.evaluate(bestMovePlayed);
 
-        move.setEvalCp(currEval.getCp());
-        move.setEvalMate(currEval.getMate());
+        movesPlayed.add(move.getUci());
+        StockfishEvaluation currEval = move.getUci().equals(lastEval.getBestUci()) ? bestEval : stockfishClient.evaluate(movesPlayed);
+
+        board.doMove(move.getSan());
+        boolean isWhitePov = board.getSideToMove() == Side.WHITE;
+
+        int whiteMultiplier = isWhitePov ? 1 : -1;
+        move.setEvalCp(currEval.getCp() == null ? null : currEval.getCp() * whiteMultiplier);
+        move.setEvalMate(currEval.getMate() == null ? null : currEval.getMate() * whiteMultiplier);
         move.setBestUci(lastEval.getBestUci());
         move.setPvUci(lastEval.getPvUci());
-        move.setClassification(
-          moveClassifier.classify(currEval, lastEval)
-        );
+        move.setClassification(moveClassifier.classify(currEval, bestEval, isWhitePov));
 
         lastEval = currEval;
       }
