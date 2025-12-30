@@ -8,16 +8,16 @@ import java.util.regex.Pattern;
 public class MoveTextParser {
   private static final Pattern MOVE_PATTERN = Pattern.compile("\\b(?:[KQRBN]?[a-h]?[1-8]?x?[a-h][1-8](?:=[QRBN])?|O-O(?:-O)?)[+#]?\\b");
 
-  public static List<String> parse(String moveText) {
-    ArrayList<String> parsedMoveText = new ArrayList<>();
+  public static String parse(String moveText) {
+    List<String> moves = new ArrayList<>();
 
     String cleanMoveText = moveText.replaceAll("\\{.*?\\}|\\(.*?\\)|;.*$", "");
     Matcher matcher = MOVE_PATTERN.matcher(cleanMoveText);
 
     while (matcher.find()) {
-      parsedMoveText.add(matcher.group());
+      moves.add(matcher.group());
     }
   
-    return parsedMoveText;
+    return String.join(" ", moves);
   }
 }

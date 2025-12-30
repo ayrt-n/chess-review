@@ -7,6 +7,7 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -47,6 +48,37 @@ public class StockfishClient implements AutoCloseable {
     }
 
     throw new IOException("Connection closed by remote host before receiving: readyok");
+  }
+
+  public StockfishEvaluation evaluate(List<String> moves) throws IOException {
+    System.out.println("Evaluating...");
+    
+    out.println("position startpos moves " + String.join(" ", moves));
+    out.println("go depth " + DEPTH);
+
+    String line;
+    StockfishEvaluation eval = new StockfishEvaluation(DEPTH);
+
+    while ((line = in.readLine()) != null) {
+      System.out.println(line);
+      if (line.contains("bestmove")) return eval;
+      if (!line.contains("info depth 15")) continue;
+
+      String[] evalParts = line.split(" ");
+      for (int i = 0; i < evalParts.length; i++) {
+        switch (evalParts[i]) {
+          case "cp":
+            int cp = Integer.parseInt(evalParts[i + 1]);
+            eval.setCp(cp);
+            break;
+          case "pv":
+            eval.setBestUci(evalParts[i + 1]);
+            eval.setPvUci(new ArrayList<>(Arrays.asList(evalParts).subList(i + 1, evalParts.length)));
+        }
+      }
+    }
+
+    throw new IOException("Connection closed by remote host before receiving full evaluation");
   }
 
   public StockfishEvaluation evaluate(String fen) throws IOException {

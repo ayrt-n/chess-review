@@ -3,13 +3,14 @@ package com.chess.api.service.analysis;
 import org.springframework.stereotype.Service;
 
 import jakarta.persistence.EntityNotFoundException;
+
+import java.util.ArrayList;
 import java.util.List;
 import com.chess.api.model.AnalysisStatus;
 import com.chess.api.model.Game;
 import com.chess.api.model.MoveAnalysis;
 import com.chess.api.model.analysis.StockfishEvaluation;
 import com.chess.api.respository.GameRepository;
-import com.github.bhlangonijr.chesslib.Board;
 
 @Service
 public class GameAnalysisService {
@@ -32,14 +33,13 @@ public class GameAnalysisService {
     List<MoveAnalysis> moves = game.getAnalysis();
 
     try (StockfishClient stockfishClient = stockfishClientFactory.createClient()) {
-      Board board = new Board();
+      List<String> movesPlayed = new ArrayList<>();
 
-      StockfishEvaluation lastEval = stockfishClient.evaluate(board.getFen());
-      lastEval.setCp(0);
+      StockfishEvaluation lastEval = stockfishClient.evaluate(movesPlayed);
 
       for (MoveAnalysis move : moves) {
-        board.doMove(move.getSan());
-        StockfishEvaluation currEval = stockfishClient.evaluate(board.getFen());
+        movesPlayed.add(move.getUci());
+        StockfishEvaluation currEval = stockfishClient.evaluate(movesPlayed);
 
         move.setEvalCp(currEval.getCp());
         move.setEvalMate(currEval.getMate());

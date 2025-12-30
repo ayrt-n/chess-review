@@ -13,6 +13,7 @@ import com.chess.api.model.Game;
 import com.chess.api.model.MoveAnalysis;
 import com.chess.api.respository.GameRepository;
 import com.chess.api.service.analysis.GameAnalysisPublisher;
+import com.github.bhlangonijr.chesslib.move.MoveList;
 
 @Service
 public class GameService {
@@ -45,10 +46,14 @@ public class GameService {
   private Game convertPgnToGame(String rawPgn) {
     Pgn pgn = PgnParser.parse(rawPgn);
     String hashedPgn = PgnHasher.hash(pgn);
-    List<MoveAnalysis> moveAnalysis = MoveTextParser.parse(pgn.moveText())
-                                                    .stream()
-                                                    .map(move -> new MoveAnalysis(move))
-                                                    .collect(Collectors.toList());
+
+    String moveString = MoveTextParser.parse(pgn.moveText());
+    MoveList moveList = new MoveList();
+    moveList.loadFromSan(moveString);
+
+    List<MoveAnalysis> moveAnalysis = moveList.stream()
+                                              .map(move -> new MoveAnalysis(move.getSan(), move.toString()))
+                                              .collect(Collectors.toList());
 
     Game game = new Game(
       rawPgn,

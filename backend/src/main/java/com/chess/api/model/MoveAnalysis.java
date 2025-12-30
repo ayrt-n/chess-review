@@ -5,6 +5,7 @@ import java.util.List;
 
 public class MoveAnalysis implements Serializable {
   private String san;
+  private String uci;
 
   private String bestUci;
   private List<String> pvUci;
@@ -17,8 +18,9 @@ public class MoveAnalysis implements Serializable {
 
   public MoveAnalysis() {}
 
-  public MoveAnalysis(String san) {
+  public MoveAnalysis(String san, String uci) {
     this.san = san;
+    this.uci = uci;
   }
 
   public String getSan() {
@@ -27,6 +29,14 @@ public class MoveAnalysis implements Serializable {
 
   public void setSan(String san) {
     this.san = san;
+  }
+
+  public String getUci() {
+    return uci;
+  }
+
+  public void setUci(String uci) {
+    this.uci = uci;
   }
 
   public String getBestUci() {
