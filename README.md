@@ -1,0 +1,47 @@
+# Chess Review
+
+A chess game analysis application that evaluates your games move-by-move using the Stockfish engine — similar to the game review features on Chess.com or Lichess.
+
+## What It Does
+
+Upload a chess game in PGN format and get detailed analysis including:
+
+- **Position evaluation** — centipawn scores and mate-in-N detection for each move
+- **Move classification** — identifies brilliant moves, great moves, good moves, inaccuracies, mistakes, and blunders
+- **Best move suggestions** — shows the engine's recommended line at each position
+
+## Architecture
+
+```
+┌──────────────┐     ┌──────────────┐     ┌──────────────┐
+│   Frontend   │────▶│   Backend    │────▶│  PostgreSQL  │
+│    (React)   │     │ (Spring Boot)│     │              │
+└──────────────┘     └──────┬───────┘     └──────────────┘
+                            │
+                      ┌─────┴─────┐
+                      ▼           ▼
+                ┌──────────┐ ┌──────────────┐
+                │ RabbitMQ │ │  Stockfish   │
+                │          │ │   Service    │
+                └──────────┘ └──────────────┘
+```
+
+| Service | Description |
+|---------|-------------|
+| **Frontend** | React/TypeScript web interface |
+| **Backend** | Java/Spring Boot API — handles PGN parsing, game storage, and analysis orchestration |
+| **PostgreSQL** | Stores games and analysis results |
+| **RabbitMQ** | Message queue for async game analysis |
+| **Stockfish Service** | Python TCP bridge exposing the Stockfish chess engine |
+
+## Getting Started
+
+1. Copy `.env.example` to `.env` and configure your environment variables
+2. Run with Docker Compose:
+
+```bash
+docker compose up --build
+```
+
+The frontend will be available at `http://localhost:3000` and the API at `http://localhost:8080`.
+
