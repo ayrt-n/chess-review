@@ -36,12 +36,40 @@ Upload a chess game in PGN format and get detailed analysis including:
 
 ## Getting Started
 
+The easiest way to get started is with the included start script:
+
+```bash
+./start.sh
+```
+
+This will check dependencies, create a `.env` file with sensible defaults if needed, build all containers, and start the application.
+
+### Start Script Options
+
+| Option | Description |
+|--------|-------------|
+| `--build-only` | Only build containers, don't start them |
+| `--no-build` | Start without rebuilding containers |
+| `-d, --detached` | Run containers in background |
+| `-h, --help` | Show help message |
+
+### Manual Setup
+
+Alternatively, you can run Docker Compose directly:
+
 1. Copy `.env.example` to `.env` and configure your environment variables
-2. Run with Docker Compose:
+2. Run:
 
 ```bash
 docker compose up --build
 ```
 
-The frontend will be available at `http://localhost:3000` and the API at `http://localhost:8080`.
+### Access Points
+
+| Service | URL |
+|---------|-----|
+| Frontend | http://localhost:3000 |
+| Backend API | http://localhost:8080 |
+| RabbitMQ Console | http://localhost:15672 |
+| PostgreSQL | localhost:5432 |
 
