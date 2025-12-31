@@ -9,15 +9,17 @@ import com.chess.api.model.analysis.StockfishEvaluation;
 public class MoveClassifier {
   public MoveClassifier() {}
 
-  public MoveClassification classify(StockfishEvaluation actual, StockfishEvaluation best, boolean isWhitePov) {
+  public MoveClassification classify(StockfishEvaluation actual, StockfishEvaluation best) {
     if (best.getMate() != null) {
       if (actual.getMate() == null) return MoveClassification.MISS;
       if (actual.getMate() == best.getMate()) return MoveClassification.BEST;
       return MoveClassification.GREAT;
     }
 
-    Double bestWin = winProbability(best.getCp(), isWhitePov);
-    Double actualWin = winProbability(actual.getCp(), isWhitePov);
+    if (actual.getMate() != null) return MoveClassification.BEST;
+
+    Double bestWin = winProbability(best.getCp());
+    Double actualWin = winProbability(actual.getCp());
 
     Double winDiff = bestWin - actualWin;
     if (winDiff < 0.01) return MoveClassification.BEST;
@@ -28,9 +30,8 @@ public class MoveClassifier {
     return MoveClassification.BLUNDER;
   }
 
-  private Double winProbability(int cp, boolean isWhitePov) {
-    int whiteMultiplier = isWhitePov ? 1 : -1;
+  private Double winProbability(int cp) {
     double k = -0.00368208;
-    return 1.0 / (1.0 + Math.exp(k * cp * whiteMultiplier));
+    return 1.0 / (1.0 + Math.exp(k * cp));
   }
 }

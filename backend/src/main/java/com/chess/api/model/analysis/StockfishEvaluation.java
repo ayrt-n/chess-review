@@ -52,4 +52,11 @@ public class StockfishEvaluation {
   public void setPvUci(List<String> pvUci) {
     this.pvUci = pvUci;
   }
+
+  public String toString() {
+    String cpString = getCp() == null ? "" : "cp " + getCp();
+    String mateString = getMate() == null ? "" : "mate " + getMate();
+
+    return "info depth " + getDepth() + " score " + cpString + mateString;
+  }
 }

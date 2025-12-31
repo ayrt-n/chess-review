@@ -40,31 +40,37 @@ public class GameAnalysisService {
       List<String> movesPlayed = new ArrayList<>();
       Board board = new Board();
 
-      StockfishEvaluation lastEval = stockfishClient.evaluate(movesPlayed);
+      StockfishEvaluation lastEval = stockfishClient.evaluate(movesPlayed, board.getSideToMove());
 
       for (MoveAnalysis move : moves) {
+        board.doMove(move.getSan());
+        Side sideToMove = board.getSideToMove();
+
+        if (board.isMated()) {
+          move.setEvalMate(0);
+          move.setBestUci(move.getUci());
+          break;
+        }
+
         List<String> bestMovePlayed = new ArrayList<>(movesPlayed);
         bestMovePlayed.add(lastEval.getBestUci());
-        StockfishEvaluation bestEval = stockfishClient.evaluate(bestMovePlayed);
+        StockfishEvaluation bestEval = stockfishClient.evaluate(bestMovePlayed, sideToMove);
 
         movesPlayed.add(move.getUci());
-        StockfishEvaluation currEval = move.getUci().equals(lastEval.getBestUci()) ? bestEval : stockfishClient.evaluate(movesPlayed);
+        StockfishEvaluation currEval = move.getUci().equals(lastEval.getBestUci()) ? bestEval : stockfishClient.evaluate(movesPlayed, sideToMove);
 
-        board.doMove(move.getSan());
-        boolean isWhitePov = board.getSideToMove() == Side.WHITE;
-
-        int whiteMultiplier = isWhitePov ? 1 : -1;
-        move.setEvalCp(currEval.getCp() == null ? null : currEval.getCp() * whiteMultiplier);
-        move.setEvalMate(currEval.getMate() == null ? null : currEval.getMate() * whiteMultiplier);
+        move.setEvalCp(currEval.getCp());
+        move.setEvalMate(currEval.getMate());
         move.setBestUci(lastEval.getBestUci());
         move.setPvUci(lastEval.getPvUci());
-        move.setClassification(moveClassifier.classify(currEval, bestEval, isWhitePov));
+        move.setClassification(moveClassifier.classify(currEval, bestEval));
 
         lastEval = currEval;
       }
 
       gameRepository.updateAnalysis(gameId, moves, stockfishClient.getEngineVersion(), ANALYSIS_VERSION);
     } catch (Exception e) {
+      e.printStackTrace();
       gameRepository.updateStatus(gameId, AnalysisStatus.FAILED);
     }
   }
