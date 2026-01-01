@@ -8,7 +8,7 @@ public record GameSummary(
   String white,
   String black,
   Integer whiteElo,
-  Integer blackELo,
+  Integer blackElo,
   AnalysisStatus analysisStatus
 ) {
   public GameSummary(Game game) {
