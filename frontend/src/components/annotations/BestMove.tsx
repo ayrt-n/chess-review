@@ -1,11 +1,11 @@
 import type { AnnotationSize } from '../../types/annotations';
 import { annotationSizes } from '../../types/annotations';
 
-interface GreatProps {
+interface BestProps {
   size?: AnnotationSize;
 }
 
-function GreatMove({ size = 'md' }: GreatProps) {
+function BestMove({ size = 'md' }: BestProps) {
   const { container, icon } = annotationSizes[size];
   const starSize = Math.round(icon * 1.25);
 
@@ -33,4 +33,5 @@ function GreatMove({ size = 'md' }: GreatProps) {
   );
 }
 
-export default GreatMove;
+export default BestMove;
+

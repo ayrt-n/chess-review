@@ -1,30 +1,29 @@
 import type { AnnotationSize } from '../../types/annotations';
 import { annotationSizes } from '../../types/annotations';
 
-interface GreatProps {
+interface GoodProps {
   size?: AnnotationSize;
 }
 
-function GreatMove({ size = 'md' }: GreatProps) {
+function GoodMove({ size = 'md' }: GoodProps) {
   const { container, icon } = annotationSizes[size];
-  const starSize = Math.round(icon * 1.25);
 
   return (
     <div
       className={`${container} rounded-full bg-lime-500 flex items-center justify-center`}
     >
       <svg
-        width={starSize}
-        height={starSize}
+        width={icon}
+        height={icon}
         viewBox="0 0 24 24"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
       >
         <path
-          d="M12 2L14.09 8.26L21 9.27L16 14.14L17.18 21.02L12 17.77L6.82 21.02L8 14.14L3 9.27L9.91 8.26L12 2Z"
+          d="M7 22V11M2 13V20C2 21.1046 2.89543 22 4 22H17.4262C18.907 22 20.1662 20.9197 20.3914 19.4562L21.4683 12.4562C21.7479 10.6389 20.3418 9 18.5032 9H14V4C14 2.89543 13.1046 2 12 2C11.4477 2 11 2.44772 11 3V3.5C11 4.32843 10.7893 5.14262 10.3906 5.87104L8.14629 9.87926C7.74782 10.6074 7.53711 11.4214 7.53711 12.2496V22H7Z"
           fill="#ffffff"
           stroke="#ffffff"
-          strokeWidth="1"
+          strokeWidth="1.5"
           strokeLinecap="round"
           strokeLinejoin="round"
         />
@@ -33,4 +32,5 @@ function GreatMove({ size = 'md' }: GreatProps) {
   );
 }
 
-export default GreatMove;
+export default GoodMove;
+
