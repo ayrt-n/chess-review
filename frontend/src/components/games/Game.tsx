@@ -8,14 +8,14 @@ import type { MoveClassification } from "../../types/api";
 import PlaybackButtons from "./PlaybackButtons";
 
 const ARROW_COLORS: Record<MoveClassification, string> = {
-  'BRILLIANT': 'oklch(71.5% 0.143 215.221 / 30%)',
+  'BRILLIANT': 'oklch(74.6% 0.16 232.661 / 30%)',
   'GREAT': 'oklch(76.8% 0.233 130.85 / 30%)',
   'BEST': 'oklch(76.8% 0.233 130.85 / 30%)',
   'GOOD': 'oklch(76.8% 0.233 130.85 / 30%)',
-  'INACCURACY': 'oklch(63.7% 0.237 25.331 / 30%)',
-  'MISTAKE': 'oklch(63.7% 0.237 25.331 / 30%)',
+  'INACCURACY': 'oklch(85.2% 0.199 91.936 / 30%)',
+  'MISTAKE': 'oklch(70.5% 0.213 47.604 / 30%)',
   'BLUNDER': 'oklch(63.7% 0.237 25.331 / 30%)',
-  'MISS': 'oklch(63.7% 0.237 25.331 / 30%)',
+  'MISS': 'oklch(70.4% 0.191 22.216 / 30%)',
 };
 
 function Game() {
