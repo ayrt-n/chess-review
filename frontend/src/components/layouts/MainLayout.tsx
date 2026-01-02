@@ -3,9 +3,9 @@ import Navbar from "../navbar/Navbar";
 
 function MainLayout() {
   return (
-    <div className="min-h-screen bg-zinc-800 text-zinc-50">
+    <div className="h-screen bg-zinc-800 text-zinc-50 flex flex-col">
       <Navbar />
-      <main>
+      <main className="flex-1 overflow-hidden">
         <Outlet />
       </main>
     </div>

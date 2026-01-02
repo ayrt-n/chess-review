@@ -65,7 +65,7 @@ function NewGame() {
         <div>
             <button
               type="submit"
-              className="bg-zinc-600 p-2 rounded-sm hover:brightness-110 transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:brightness-100"
+              className="bg-zinc-600 border-b-4 border-zinc-700 p-2 rounded-sm hover:bg-zinc-550 hover:border-zinc-650 active:bg-zinc-600 active:border-zinc-700 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:brightness-100"
               disabled={isSubmitting || !pgn.trim()}
             >
               {isSubmitting ? "Importing..." : "Import Game"}

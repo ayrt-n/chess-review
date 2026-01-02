@@ -12,8 +12,13 @@
   "dependencies": {
     "@fontsource-variable/montserrat": "^5.2.8",
     "@fontsource/lato": "^5.2.7",
+    "@fortawesome/fontawesome-svg-core": "^7.1.0",
+    "@fortawesome/free-solid-svg-icons": "^7.1.0",
+    "@fortawesome/react-fontawesome": "^3.1.1",
     "@tailwindcss/vite": "^4.1.18",
+    "chess.js": "^1.4.0",
     "react": "^19.2.0",
+    "react-chessboard": "^5.8.6",
     "react-dom": "^19.2.0",
     "react-router": "^7.11.0",
     "tailwindcss": "^4.1.18"

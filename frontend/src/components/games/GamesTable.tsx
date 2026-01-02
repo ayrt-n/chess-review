@@ -1,13 +1,5 @@
 import GamesTableRow from "./GamesTableRow";
-
-interface GameSummary {
-  id: number;
-  white: string;
-  black: string;
-  whiteElo: number;
-  blackElo: number;
-  analysisStatus: 'PENDING' | 'PROCESSING' | 'COMPLETED' | 'FAILED';
-}
+import type { GameSummary } from "../../types/api";
 
 function GamesTable({ games }: { games: GameSummary[] }) {
   return (

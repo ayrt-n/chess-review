@@ -16,6 +16,21 @@
   --color-zinc-850: oklch(0.242 0.006 285.96);
 }
 
+@layer base {
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+  ::-webkit-scrollbar-track {
+    @apply bg-zinc-900;
+  }
+  ::-webkit-scrollbar-thumb {
+    @apply bg-zinc-700 rounded-full border-2 border-zinc-900;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-zinc-600;
+  }
+}
+
 body {
   margin: 0;
   font-family: var(--font-body);

@@ -1,14 +1,6 @@
 import { useEffect, useState } from "react";
 import GamesTable from "./GamesTable";
-
-interface GameSummary {
-  id: number;
-  white: string;
-  black: string;
-  whiteElo: number;
-  blackElo: number;
-  analysisStatus: 'PENDING' | 'PROCESSING' | 'COMPLETED' | 'FAILED';
-}
+import type { GameSummary } from "../../types/api";
 
 function Games() {
   const [games, setGames] = useState<GameSummary[]>([]);

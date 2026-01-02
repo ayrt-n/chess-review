@@ -1,13 +1,5 @@
 import { Link } from "react-router";
-
-interface GameSummary {
-  id: number;
-  white: string;
-  black: string;
-  whiteElo: number;
-  blackElo: number;
-  analysisStatus: 'PENDING' | 'PROCESSING' | 'COMPLETED' | 'FAILED';
-}
+import type { GameSummary } from "../../types/api";
 
 function GamesTableRow({ game }: { game: GameSummary }) {
   const reviewStatus = (() => {
