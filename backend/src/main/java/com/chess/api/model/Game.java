@@ -1,5 +1,6 @@
 package com.chess.api.model;
 
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,16 +40,22 @@ public class Game extends BaseModel {
   private String black;
   private String analysisVersion;
   private String engineVersion;
+  private String result;
+  private OffsetDateTime gameDate;
+  private String timeControl;
 
   public Game() {}
 
-  public Game(String rawPgn, String pgnHash, String white, int whiteElo,  String black, int blackElo, List<MoveAnalysis> analysis) {
+  public Game(String rawPgn, String pgnHash, String white, int whiteElo,  String black, int blackElo, String result, String timeControl, OffsetDateTime gameDate, List<MoveAnalysis> analysis) {
     this.rawPgn = rawPgn;
     this.pgnHash = pgnHash;
     this.white = white;
     this.whiteElo = whiteElo;
     this.black = black;
     this.blackElo = blackElo;
+    this.result = result;
+    this.timeControl = timeControl;
+    this.gameDate = gameDate;
     this.analysis = analysis;
   }
 
@@ -134,5 +141,29 @@ public class Game extends BaseModel {
 
   public void setEngineVersion(String engineVersion) {
     this.engineVersion = engineVersion;
+  }
+
+  public String getResult() {
+    return result;
+  }
+
+  public void setResult(String result) {
+    this.result = result;
+  }
+
+  public String getTimeControl() {
+    return timeControl;
+  }
+
+  public void setTimeControl(String timeControl) {
+    this.timeControl = timeControl;
+  }
+
+  public OffsetDateTime getGameDate() {
+    return gameDate;
+  }
+
+  public void setGameDate(OffsetDateTime gameDate) {
+    this.gameDate = gameDate;
   }
 }

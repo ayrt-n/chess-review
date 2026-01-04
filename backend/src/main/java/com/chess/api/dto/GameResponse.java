@@ -1,5 +1,6 @@
 package com.chess.api.dto;
 
+import java.time.OffsetDateTime;
 import java.util.List;
 
 import com.chess.api.model.AnalysisStatus;
@@ -15,7 +16,10 @@ public record GameResponse(
   List<MoveAnalysis> analysis,
   AnalysisStatus analysisStatus,
   String analysisVersion,
-  String engineVersion
+  String engineVersion,
+  String result,
+  String timeControl,
+  OffsetDateTime gameDate
 ) {
   public GameResponse(Game game) {
     this(
@@ -27,7 +31,10 @@ public record GameResponse(
       game.getAnalysis(),
       game.getAnalysisStatus(),
       game.getAnalysisVersion(),
-      game.getEngineVersion()
+      game.getEngineVersion(),
+      game.getResult(),
+      game.getTimeControl(),
+      game.getGameDate()
     );
   }
 }

@@ -10,7 +10,7 @@ import com.chess.api.dto.Pgn;
 public class PgnHasherTests {
   @Test
   void pgnHashesToCorrectSha256Hash() {
-    Pgn pgn = new Pgn("White", "Black", 2345, 2025, "1. e4 c5 2. Nf3 d6 3. d4 cxd4 4. Nxd4 Nf6");
+    Pgn pgn = new Pgn("White", "Black", 2345, 2025, "1. e4 c5 2. Nf3 d6 3. d4 cxd4 4. Nxd4 Nf6", null, null, null);
     String pgnHash = PgnHasher.hash(pgn);
     String expectedHash = "393f8687b0a2c6d11e8e6a25af416ccc90e16b183074fcce7f3dcb03084915e7";
 
@@ -19,8 +19,8 @@ public class PgnHasherTests {
 
   @Test
   void differentWhitePgnChangesHash() {
-    Pgn pgn1 = new Pgn("White1", "Black", 2345, 2025, "1. e4 c5 2. Nf3 d6 3. d4 cxd4 4. Nxd4 Nf6");
-    Pgn pgn2 = new Pgn("White", "Black", 2345, 2025, "1. e4 c5 2. Nf3 d6 3. d4 cxd4 4. Nxd4 Nf6");
+    Pgn pgn1 = new Pgn("White1", "Black", 2345, 2025, "1. e4 c5 2. Nf3 d6 3. d4 cxd4 4. Nxd4 Nf6", null, null, null);
+    Pgn pgn2 = new Pgn("White", "Black", 2345, 2025, "1. e4 c5 2. Nf3 d6 3. d4 cxd4 4. Nxd4 Nf6", null, null, null);
 
     String pgn1Hash = PgnHasher.hash(pgn1);
     String pgn2Hash = PgnHasher.hash(pgn2);
@@ -30,8 +30,8 @@ public class PgnHasherTests {
 
   @Test
   void differentBlackPgnChangesHash() {
-    Pgn pgn1 = new Pgn("White", "Bl ack", 2345, 2025, "1. e4 c5 2. Nf3 d6 3. d4 cxd4 4. Nxd4 Nf6");
-    Pgn pgn2 = new Pgn("White", "Black", 2345, 2025, "1. e4 c5 2. Nf3 d6 3. d4 cxd4 4. Nxd4 Nf6");
+    Pgn pgn1 = new Pgn("White", "Bl ack", 2345, 2025, "1. e4 c5 2. Nf3 d6 3. d4 cxd4 4. Nxd4 Nf6", null, null, null);
+    Pgn pgn2 = new Pgn("White", "Black", 2345, 2025, "1. e4 c5 2. Nf3 d6 3. d4 cxd4 4. Nxd4 Nf6", null, null, null);
 
     String pgn1Hash = PgnHasher.hash(pgn1);
     String pgn2Hash = PgnHasher.hash(pgn2);
@@ -41,8 +41,8 @@ public class PgnHasherTests {
 
   @Test
   void differentWhiteEloPgnChangesHash() {
-    Pgn pgn1 = new Pgn("White", "Black", 2344, 2025, "1. e4 c5 2. Nf3 d6 3. d4 cxd4 4. Nxd4 Nf6");
-    Pgn pgn2 = new Pgn("White", "Black", 2345, 2025, "1. e4 c5 2. Nf3 d6 3. d4 cxd4 4. Nxd4 Nf6");
+    Pgn pgn1 = new Pgn("White", "Black", 2344, 2025, "1. e4 c5 2. Nf3 d6 3. d4 cxd4 4. Nxd4 Nf6", null, null, null);
+    Pgn pgn2 = new Pgn("White", "Black", 2345, 2025, "1. e4 c5 2. Nf3 d6 3. d4 cxd4 4. Nxd4 Nf6", null, null, null);
 
     String pgn1Hash = PgnHasher.hash(pgn1);
     String pgn2Hash = PgnHasher.hash(pgn2);
@@ -52,8 +52,8 @@ public class PgnHasherTests {
 
   @Test
   void differentBlackEloPgnChangesHash() {
-    Pgn pgn1 = new Pgn("White1", "Black", 2345, 2026, "1. e4 c5 2. Nf3 d6 3. d4 cxd4 4. Nxd4 Nf6");
-    Pgn pgn2 = new Pgn("White", "Black", 2345, 2025, "1. e4 c5 2. Nf3 d6 3. d4 cxd4 4. Nxd4 Nf6");
+    Pgn pgn1 = new Pgn("White1", "Black", 2345, 2026, "1. e4 c5 2. Nf3 d6 3. d4 cxd4 4. Nxd4 Nf6", null, null, null);
+    Pgn pgn2 = new Pgn("White", "Black", 2345, 2025, "1. e4 c5 2. Nf3 d6 3. d4 cxd4 4. Nxd4 Nf6", null, null, null);
 
     String pgn1Hash = PgnHasher.hash(pgn1);
     String pgn2Hash = PgnHasher.hash(pgn2);
@@ -63,8 +63,8 @@ public class PgnHasherTests {
 
   @Test
   void differentMoveTextPgnChangesHash() {
-    Pgn pgn1 = new Pgn("White1", "Black", 2345, 2026, "1. e4 c5 2. Nf3 d6 3. d4 cxd4 4. Nxd4 h4");
-    Pgn pgn2 = new Pgn("White", "Black", 2345, 2025, "1. e4 c5 2. Nf3 d6 3. d4 cxd4 4. Nxd4 Nf6");
+    Pgn pgn1 = new Pgn("White1", "Black", 2345, 2026, "1. e4 c5 2. Nf3 d6 3. d4 cxd4 4. Nxd4 h4", null, null, null);
+    Pgn pgn2 = new Pgn("White", "Black", 2345, 2025, "1. e4 c5 2. Nf3 d6 3. d4 cxd4 4. Nxd4 Nf6", null, null, null);
 
     String pgn1Hash = PgnHasher.hash(pgn1);
     String pgn2Hash = PgnHasher.hash(pgn2);
@@ -74,8 +74,8 @@ public class PgnHasherTests {
 
   @Test
   void identicalPgnsHaveEqualHashes() {
-    Pgn pgn1 = new Pgn("White", "Black", 2345, 2025, "1. e4 c5 2. Nf3 d6 3. d4 cxd4 4. Nxd4 Nf6");
-    Pgn pgn2 = new Pgn("White", "Black", 2345, 2025, "1. e4 c5 2. Nf3 d6 3. d4 cxd4 4. Nxd4 Nf6");
+    Pgn pgn1 = new Pgn("White", "Black", 2345, 2025, "1. e4 c5 2. Nf3 d6 3. d4 cxd4 4. Nxd4 Nf6", null, null, null);
+    Pgn pgn2 = new Pgn("White", "Black", 2345, 2025, "1. e4 c5 2. Nf3 d6 3. d4 cxd4 4. Nxd4 Nf6", null, null, null);
 
     String pgn1Hash = PgnHasher.hash(pgn1);
     String pgn2Hash = PgnHasher.hash(pgn2);

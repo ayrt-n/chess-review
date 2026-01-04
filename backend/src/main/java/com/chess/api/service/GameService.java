@@ -62,6 +62,9 @@ public class GameService {
       pgn.whiteElo(),
       pgn.black(),
       pgn.blackElo(),
+      pgn.result(),
+      pgn.timeControl(),
+      pgn.gameDate(),
       moveAnalysis
     );
 

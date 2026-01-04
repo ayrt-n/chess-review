@@ -41,6 +41,9 @@ public class PgnParserTests {
     assertEquals("MagnusCarlsen", pgnResult.black());
     assertEquals(3159, pgnResult.whiteElo());
     assertEquals(3366, pgnResult.blackElo());
+    assertEquals("0-1", pgnResult.result());
+    assertEquals("180", pgnResult.timeControl());
+    assertEquals("2025-12-21T00:00Z", pgnResult.gameDate().toString());
 
     String cleanMoveText = "1. e4 c5 2. Nf3 d6 3. d4 cxd4 4. Nxd4 Nf6 5. Nc3 a6 6. Be2 e5 7. Nf3 Be7 8. O-O O-O 9. a4 h6 10. Re1 Be6 11. h3 Nbd7 12. Be3 Rc8 13. a5 Rxc3 14. bxc3 Nxe4 15. Qb1 Qc7 16. Bf1 Nxc3 17. Qb2 Rc8 18. Nd2 d5 19. f3 Bh4 20. Rec1 d4 21. Bf2 Bxf2+ 22. Kxf2 f5 23. Qb4 Nf6 24. Kg1 Nfd5 25. Qc4 Qe7 26. Qb3 Nf4 27. Qb6 Rc6 28. Qa7 Nfe2+ 29. Bxe2 Nxe2+ 30. Kh1 Nxc1 31. Rxc1 Qg5 32. Rd1 Rxc2 33. Qb8+ Kh7 34. Qxe5 Rxd2 35. Rxd2 Qxd2 0-1";
     assertEquals(cleanMoveText, pgnResult.moveText());
@@ -60,6 +63,7 @@ public class PgnParserTests {
     [WhiteElo "2660"]
     [BlackElo "2528"]
     [Variant "Standard"]
+    [TimeControl "900+15"]
     [ECO "C91"]
     [Opening "Ruy Lopez: Closed, Bogoljubow Variation"]
     [StudyName "Magnus Carlsen vs Hikaru Nakamura"]
@@ -77,8 +81,26 @@ public class PgnParserTests {
     assertEquals("Magnus Carlsen", pgnResult.black());
     assertEquals(2660, pgnResult.whiteElo());
     assertEquals(2528, pgnResult.blackElo());
+    assertEquals("1/2-1/2", pgnResult.result());
+    assertEquals("900+15", pgnResult.timeControl());
+    assertEquals("2005-07-17T00:00Z", pgnResult.gameDate().toString());
 
     String cleanMoveText = "1. e4 e5 2. Nf3 Nc6 3. Bb5 a6 4. Ba4 Nf6 5. O-O Be7 6. Re1 b5 7. Bb3 O-O 8. d4 d6 9. c3 Bg4 10. Be3 exd4 11. cxd4 Na5 12. Bc2 c5 13. dxc5 dxc5 14. h3 Qxd1 15. Bxd1 Be6 16. Nbd2 Nc6 17. Ng5 c4 18. a3 Rad8 19. Bc2 Bc8 20. f4 Nd7 21. Ngf3 Nc5 22. e5 Nd3 23. Bxd3 Rxd3 24. Ne4 Bf5 25. Nd6 { 1/2-1/2 The game is a draw. } 1/2-1/2";
     assertEquals(cleanMoveText, pgnResult.moveText());
+  }
+
+  @Test
+  void returnsPgnIfDataMissing() {
+    String emptyString = "";
+    Pgn pgnResult = PgnParser.parse(emptyString);
+
+    assertEquals(null, pgnResult.white());
+    assertEquals(null, pgnResult.black());
+    assertEquals(0, pgnResult.whiteElo());
+    assertEquals(0, pgnResult.blackElo());
+    assertEquals(null, pgnResult.result());
+    assertEquals(null, pgnResult.timeControl());
+    assertEquals(null, pgnResult.gameDate());
+    assertEquals("", pgnResult.moveText());
   }
 }
