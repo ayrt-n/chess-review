@@ -1,6 +1,7 @@
 import { Chess } from "chess.js";
 import { useEffect, useState } from "react";
 import type { GameResponse, MoveAnalysis } from "../types/api";
+import type { Side } from "../types/chess";
 
 export function useChessAnalysis(gameId: string | undefined) {
   const [game, setGame] = useState<GameResponse | null>(null);
@@ -47,11 +48,14 @@ export function useChessAnalysis(gameId: string | undefined) {
 
   const numberOfMoves = game?.analysis?.length || 0;
 
+  const currentSide: Side = (currentMove % 2 === 0) ? "BLACK" : "WHITE";
+
   return {
     game,
     currentMove,
     currentFen: positions[currentMove],
     currentAnalysis: game?.analysis[currentMove - 1] || null,
+    currentSide,
     loading,
     error,
     navigation: {
