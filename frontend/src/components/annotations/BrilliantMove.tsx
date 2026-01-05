@@ -1,5 +1,8 @@
 import type { AnnotationSize } from '../../types/annotations';
 import { annotationSizes } from '../../types/annotations';
+// 1. Import Font Awesome components
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faExclamation } from '@fortawesome/free-solid-svg-icons';
 
 interface BrilliantProps {
   size?: AnnotationSize;
@@ -7,25 +10,24 @@ interface BrilliantProps {
 
 function BrilliantMove({ size = 'md' }: BrilliantProps) {
   const { container, icon } = annotationSizes[size];
-  const fontSize = Math.round(icon * 0.9);
 
   return (
     <div
       className={`${container} rounded-full bg-sky-400 flex items-center justify-center`}
     >
-      <span
-        style={{
-          fontSize: `${fontSize}px`,
-          fontWeight: 800,
-          color: '#ffffff',
-          lineHeight: 1,
-        }}
-      >
-        !!
-      </span>
+      <div className="flex flex-row -space-x-0.5">
+        <FontAwesomeIcon 
+          icon={faExclamation} 
+          style={{ 
+            fontSize: `${icon}px`, 
+            color: '#ffffff',
+            stroke: "#ffffff",
+            strokeWidth: "40px" 
+          }} 
+        />
+      </div>
     </div>
   );
 }
 
 export default BrilliantMove;
-

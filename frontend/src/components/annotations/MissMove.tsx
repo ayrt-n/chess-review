@@ -1,5 +1,7 @@
 import type { AnnotationSize } from '../../types/annotations';
 import { annotationSizes } from '../../types/annotations';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faThumbsDown } from '@fortawesome/free-solid-svg-icons';
 
 interface MissProps {
   size?: AnnotationSize;
@@ -7,30 +9,18 @@ interface MissProps {
 
 function MissMove({ size = 'md' }: MissProps) {
   const { container, icon } = annotationSizes[size];
-  const xSize = Math.round(icon * 1.25);
 
   return (
-    <div
-      className={`${container} rounded-full bg-red-400 flex items-center justify-center`}
-    >
-      <svg
-        width={xSize}
-        height={xSize}
-        viewBox="0 0 24 24"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path
-          d="M18 6L6 18M6 6L18 18"
-          stroke="#ffffff"
-          strokeWidth="3"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-      </svg>
+    <div className={`${container} rounded-full bg-rose-600 flex items-center justify-center`} >
+      <FontAwesomeIcon 
+        icon={faThumbsDown} 
+        style={{ 
+          fontSize: `${icon}px`, 
+          color: '#ffffff'
+        }} 
+      />
     </div>
   );
 }
 
 export default MissMove;
-

@@ -1,5 +1,7 @@
 import type { AnnotationSize } from '../../types/annotations';
 import { annotationSizes } from '../../types/annotations';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTriangleExclamation } from '@fortawesome/free-solid-svg-icons';
 
 interface MistakeProps {
   size?: AnnotationSize;
@@ -7,25 +9,18 @@ interface MistakeProps {
 
 function MistakeMove({ size = 'md' }: MistakeProps) {
   const { container, icon } = annotationSizes[size];
-  const fontSize = Math.round(icon * 0.9);
 
   return (
-    <div
-      className={`${container} rounded-full bg-orange-500 flex items-center justify-center`}
-    >
-      <span
-        style={{
-          fontSize: `${fontSize}px`,
-          fontWeight: 800,
+    <div className={`${container} rounded-full bg-orange-500 flex items-center justify-center`} >
+      <FontAwesomeIcon 
+        icon={faTriangleExclamation} 
+        style={{ 
+          fontSize: `${icon}px`, 
           color: '#ffffff',
-          lineHeight: 1,
-        }}
-      >
-        ?
-      </span>
+        }} 
+      />
     </div>
   );
 }
 
 export default MistakeMove;
-
