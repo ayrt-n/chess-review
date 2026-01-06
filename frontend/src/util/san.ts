@@ -1,4 +1,4 @@
-import type { Side } from "../types/chess";
+import type { Side } from "../types/api";
 
 export interface MoveData {
   piece: string;
@@ -17,7 +17,7 @@ export function parseSanMove(san: string): MoveData {
   return { piece, square };
 }
 
-export function getPieceSymbol(piece: string, side: Side): string {
+export function getPieceSymbol(piece: string, side: Side | null): string {
   if (!piece) return "";
 
   const symbols: Record<string, { white: string; black: string }> = {

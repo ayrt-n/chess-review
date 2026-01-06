@@ -12,11 +12,14 @@ export type MoveClassification =
   | 'BLUNDER'
   | 'MISS';
 
+export type Side = 'WHITE' | 'BLACK';
+
 // Models
 
 export interface MoveAnalysis {
   san: string;
   uci: string;
+  side: Side | null;
   bestUci: string | null;
   pvUci: string[] | null;
   evalCp: number | null;
@@ -49,6 +52,9 @@ export interface GameResponse {
   analysisStatus: AnalysisStatus;
   analysisVersion: string | null;
   engineVersion: string | null;
+  result: string | null;
+  timeControl: string | null;
+  gameDate: string | null;
 }
 
 export interface GameSummary {
@@ -66,9 +72,11 @@ export interface Pgn {
   whiteElo: number;
   blackElo: number;
   moveText: string;
+  timeControl: string;
+  result: string;
+  gameDate: string;
 }
 
 export interface GameAnalysisMessage {
   gameId: number;
 }
-

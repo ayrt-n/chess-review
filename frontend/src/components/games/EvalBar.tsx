@@ -1,15 +1,17 @@
-interface EvalBarProps {
-  cp?: number | null;
-  mate?: number | null;
-}
+import type { MoveAnalysis } from "../../types/api";
 
-const EvalBar = ({ cp = 0, mate = null }: EvalBarProps) => {
+const EvalBar = ({ move }: { move: MoveAnalysis | null }) => {
+  const cp = move?.evalCp || 0;
+  const mate = move?.evalMate ?? null;
+
   const getWhitePercentage = () => {
+    if (mate === 0) {
+      return (move?.side === "WHITE") ? 100 : 0;
+    }
+
     if (mate !== null) {
       return mate > 0 ? 100 : 0;
     }
-
-    if (cp === null || cp === undefined) return 50;
 
     const maxEval = 1000;
     const clampedCp = Math.max(Math.min(cp, maxEval), -maxEval);

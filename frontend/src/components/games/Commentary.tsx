@@ -1,5 +1,4 @@
 import type { MoveAnalysis } from "../../types/api";
-import type { Side } from "../../types/chess";
 import { getPieceSymbol, parseSanMove } from "../../util/san";
 import BestMove from "../annotations/BestMove";
 import BlunderMove from "../annotations/BlunderMove";
@@ -10,7 +9,7 @@ import InaccuracyMove from "../annotations/InaccuracyMove";
 import MissMove from "../annotations/MissMove";
 import MistakeMove from "../annotations/MistakeMove";
 
-function Commentary({ move, side }: { move: MoveAnalysis | null, side: Side }) {
+function Commentary({ move }: { move: MoveAnalysis | null }) {
   const getClassificationComponent = () => {
     if (!move) return null;
 
@@ -77,12 +76,15 @@ function Commentary({ move, side }: { move: MoveAnalysis | null, side: Side }) {
   );
 
   const moveData = parseSanMove(move.san) ?? {};
-  const sanMove = <>
+  const moveSummary = <>
     <span className="mr-1 text-xl">
-      {getPieceSymbol(moveData.piece, side)}
+      {getPieceSymbol(moveData.piece, move.side)}
     </span>
     <span>
       {moveData.square}
+    </span>
+    <span>
+      {` is ${getClassificationText()}`}
     </span>
   </>
 
@@ -91,8 +93,7 @@ function Commentary({ move, side }: { move: MoveAnalysis | null, side: Side }) {
       <div className="flex flex-1 gap-1 items-center">
         {getClassificationComponent()}
         <div className="font-bold break-words">
-          {sanMove}
-          {` is ${getClassificationText()}`}
+          {moveSummary}
         </div>
       </div>
       <div className="bg-zinc-200 py-1 px-2 rounded-md text-sm font-bold">

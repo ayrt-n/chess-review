@@ -1,4 +1,4 @@
-import type { Side } from "../../types/chess";
+import type { Side } from "../../types/api";
 import { parseSanMove, getPieceSymbol } from "../../util/san";
 
 function SanMove({ san, player, onClick }: { san: string, player: Side, onClick: () => void }) {

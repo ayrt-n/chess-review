@@ -3,9 +3,12 @@ package com.chess.api.model;
 import java.io.Serializable;
 import java.util.List;
 
+import com.github.bhlangonijr.chesslib.Side;
+
 public class MoveAnalysis implements Serializable {
   private String san;
   private String uci;
+  private Side side;
 
   private String bestUci;
   private List<String> pvUci;
@@ -37,6 +40,14 @@ public class MoveAnalysis implements Serializable {
 
   public void setUci(String uci) {
     this.uci = uci;
+  }
+
+  public Side getSide() {
+    return side;
+  }
+
+  public void setSide(Side side) {
+    this.side = side;
   }
 
   public String getBestUci() {

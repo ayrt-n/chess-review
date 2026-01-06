@@ -21,7 +21,7 @@ const ARROW_COLORS: Record<MoveClassification, string> = {
 
 function Game() {
   const { gameId } = useParams();
-  const { game, currentFen, currentAnalysis, currentSide, navigation, loading, error } = useChessAnalysis(gameId);
+  const { game, currentFen, currentAnalysis, navigation, loading, error } = useChessAnalysis(gameId);
 
   const arrows = useMemo(() => {
     if (!currentAnalysis?.bestUci) return [];
@@ -71,7 +71,7 @@ function Game() {
           </div>
         </div>
 
-        <EvalBar cp={currentAnalysis?.evalCp} mate={currentAnalysis?.evalMate} />
+        <EvalBar move={currentAnalysis} />
 
         <div className="bg-green-500 aspect-square">
           <Chessboard options={chessboardOptions} />
@@ -91,7 +91,7 @@ function Game() {
         </h2>
 
         <div className="shrink-0 py-2 px-4 transition-all">
-          <Commentary move={currentAnalysis} side={currentSide} />
+          <Commentary move={currentAnalysis} />
         </div>
 
         <div className="flex-1 overflow-y-auto min-h-0">
