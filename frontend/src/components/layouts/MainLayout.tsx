@@ -1,7 +1,7 @@
 import { Outlet } from "react-router";
 import Navbar from "../navbar/Navbar";
 
-function MainLayout() {
+function MainLayout() { 
   return (
     <div className="h-screen bg-zinc-800 text-zinc-50 flex flex-col">
       <Navbar />
