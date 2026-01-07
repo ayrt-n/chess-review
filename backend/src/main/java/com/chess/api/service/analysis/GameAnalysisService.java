@@ -9,7 +9,6 @@ import java.util.List;
 import com.chess.api.model.AnalysisStatus;
 import com.chess.api.model.Game;
 import com.chess.api.model.MoveAnalysis;
-import com.chess.api.model.MoveClassification;
 import com.chess.api.model.analysis.StockfishEvaluation;
 import com.chess.api.respository.GameRepository;
 import com.github.bhlangonijr.chesslib.Board;
@@ -48,13 +47,6 @@ public class GameAnalysisService {
 
         board.doMove(move.getSan());
         Side sideToMove = board.getSideToMove();
-
-        if (board.isMated()) {
-          move.setEvalMate(0);
-          move.setBestUci(move.getUci());
-          move.setClassification(MoveClassification.BEST);
-          break;
-        }
 
         List<String> bestMovePlayed = new ArrayList<>(movesPlayed);
         bestMovePlayed.add(lastEval.getBestUci());

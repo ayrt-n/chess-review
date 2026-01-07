@@ -55,28 +55,34 @@ public class StockfishClient implements AutoCloseable {
     out.println("go depth " + DEPTH);
 
     String line;
+    String info = "";
     int evalMultiplier = side.equals(Side.WHITE) ? 1 : -1;
     StockfishEvaluation eval = new StockfishEvaluation(DEPTH);
 
     while ((line = in.readLine()) != null) {
-      if (line.contains("bestmove")) return eval;
-      if (!line.contains("info depth 15")) continue;
+      if (line.contains("info depth")) {
+        info = line;
+      }
 
-      String[] evalParts = line.split(" ");
-      for (int i = 0; i < evalParts.length; i++) {
-        switch (evalParts[i]) {
-          case "cp":
-            int cp = Integer.parseInt(evalParts[i + 1]) * evalMultiplier;
-            eval.setCp(cp);
-            break;
-          case "mate":
-            int mate = Integer.parseInt(evalParts[i + 1]) * evalMultiplier;
-            eval.setMate(mate);
-            break;
-          case "pv":
-            eval.setBestUci(evalParts[i + 1]);
-            eval.setPvUci(new ArrayList<>(Arrays.asList(evalParts).subList(i + 1, evalParts.length)));
+      if (line.contains("bestmove")) {
+        String[] evalParts = info.split(" ");
+        for (int i = 0; i < evalParts.length; i++) {
+          switch (evalParts[i]) {
+            case "cp":
+              int cp = Integer.parseInt(evalParts[i + 1]) * evalMultiplier;
+              eval.setCp(cp);
+              break;
+            case "mate":
+              int mate = Integer.parseInt(evalParts[i + 1]) * evalMultiplier;
+              eval.setMate(mate);
+              break;
+            case "pv":
+              eval.setBestUci(evalParts[i + 1]);
+              eval.setPvUci(new ArrayList<>(Arrays.asList(evalParts).subList(i + 1, evalParts.length)));
+          }
         }
+
+        return eval;
       }
     }
 

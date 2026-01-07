@@ -22,7 +22,7 @@ public class MoveClassifier {
     Double actualWin = winProbability(actual.getCp());
 
     Double winDiff = bestWin - actualWin;
-    if (winDiff < 0.01) return MoveClassification.BEST;
+    if (winDiff == 0.0) return MoveClassification.BEST;
     if (winDiff < 0.02) return MoveClassification.GREAT;
     if (winDiff < 0.05) return MoveClassification.GOOD;
     if (winDiff < 0.12) return MoveClassification.INACCURACY;
