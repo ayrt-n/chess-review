@@ -11,6 +11,7 @@ import com.chess.api.model.Game;
 import com.chess.api.model.MoveAnalysis;
 import com.chess.api.model.analysis.StockfishEvaluation;
 import com.chess.api.respository.GameRepository;
+import com.chess.api.service.commentary.CommentaryPublisher;
 import com.github.bhlangonijr.chesslib.Board;
 import com.github.bhlangonijr.chesslib.Side;
 
@@ -21,11 +22,13 @@ public class GameAnalysisService {
   private final GameRepository gameRepository;
   private final StockfishClientFactory stockfishClientFactory;
   private final MoveClassifier moveClassifier;
+  private final CommentaryPublisher commentaryPublisher;
 
-  public GameAnalysisService(GameRepository gameRepository, StockfishClientFactory stockfishClientFactory, MoveClassifier moveClassifier) {
+  public GameAnalysisService(GameRepository gameRepository, StockfishClientFactory stockfishClientFactory, MoveClassifier moveClassifier, CommentaryPublisher commentaryPublisher) {
     this.gameRepository = gameRepository;
     this.stockfishClientFactory = stockfishClientFactory;
     this.moveClassifier = moveClassifier;
+    this.commentaryPublisher = commentaryPublisher;
   }
 
   public void analyzeGame(Long gameId) {
@@ -65,6 +68,8 @@ public class GameAnalysisService {
       }
 
       gameRepository.updateAnalysis(gameId, moves, stockfishClient.getEngineVersion(), ANALYSIS_VERSION);
+      
+      commentaryPublisher.publishCommentaryRequest(gameId);
     } catch (Exception e) {
       e.printStackTrace();
       gameRepository.updateStatus(gameId, AnalysisStatus.FAILED);

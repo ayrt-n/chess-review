@@ -10,22 +10,31 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class RabbitMQConfig {
   @Value("${chess.rabbitmq.queue.analysis}")
-  private String queueName;
+  private String analysisQueueName;
 
   @Value("${chess.rabbitmq.exchange.analysis}")
-  private String exchangeName;
+  private String analysisExchangeName;
 
   @Value("${chess.rabbitmq.routing-key.analysis}")
-  private String routingKey;
+  private String analysisRoutingKey;
+
+  @Value("${chess.rabbitmq.queue.commentary}")
+  private String commentaryQueueName;
+
+  @Value("${chess.rabbitmq.exchange.commentary}")
+  private String commentaryExchangeName;
+
+  @Value("${chess.rabbitmq.routing-key.commentary}")
+  private String commentaryRoutingKey;
 
   @Bean
   public Queue analysisQueue() {
-    return QueueBuilder.durable(queueName).quorum().build();
+    return QueueBuilder.durable(analysisQueueName).quorum().build();
   }
 
   @Bean
   public DirectExchange analysisExchange() {
-    return new DirectExchange(exchangeName);
+    return new DirectExchange(analysisExchangeName);
   }
 
   @Bean
@@ -33,7 +42,25 @@ public class RabbitMQConfig {
     return BindingBuilder
       .bind(analysisQueue)
       .to(analysisExchange)
-      .with(routingKey);
+      .with(analysisRoutingKey);
+  }
+
+  @Bean
+  public Queue commentaryQueue() {
+    return QueueBuilder.durable(commentaryQueueName).quorum().build();
+  }
+
+  @Bean
+  public DirectExchange commentaryExchange() {
+    return new DirectExchange(commentaryExchangeName);
+  }
+
+  @Bean
+  public Binding commentaryBinding(Queue commentaryQueue, DirectExchange commentaryExchange) {
+    return BindingBuilder
+      .bind(commentaryQueue)
+      .to(commentaryExchange)
+      .with(commentaryRoutingKey);
   }
 
   @Bean
