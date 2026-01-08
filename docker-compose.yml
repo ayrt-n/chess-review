@@ -58,6 +58,9 @@ services:
       - RABBITMQ_PASS=${RABBITMQ_PASS:-guest}
       - STOCKFISH_HOST=stockfish-engine
       - STOCKFISH_PORT=5000
+      - GOOGLE_APPLICATION_CREDENTIALS=/app/credentials/vertex-ai-key.json
+    volumes:
+      - ./vertex-ai-key.json:/app/credentials/vertex-ai-key.json:ro
 
   frontend:
     build: ./frontend
