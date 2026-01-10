@@ -16,7 +16,7 @@ public class MoveClassifier {
       return MoveClassification.GREAT;
     }
 
-    if (actual.getMate() != null) return MoveClassification.BEST;
+    if (actual.getMate() != null) return MoveClassification.BLUNDER;
 
     Double bestWin = winProbability(best.getCp());
     Double actualWin = winProbability(actual.getCp());
