@@ -47,6 +47,7 @@ public class GameAnalysisService {
 
       for (MoveAnalysis move : moves) {
         move.setSide(board.getSideToMove());
+        move.setFen(board.getFen());
 
         board.doMove(move.getSan());
         Side sideToMove = board.getSideToMove();

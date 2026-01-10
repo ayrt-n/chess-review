@@ -22,4 +22,9 @@ public interface GameRepository extends JpaRepository<Game, Long> {
   @Transactional
   @Query("UPDATE Game g SET g.analysis = :analysis, g.engineVersion = :engineVersion, g.analysisVersion = :analysisVersion WHERE g.id = :id")
   void updateAnalysis(Long id, List<MoveAnalysis> analysis, String engineVersion, String analysisVersion);
+
+  @Modifying
+  @Transactional
+  @Query("UPDATE Game g SET g.analysis = :analysis WHERE g.id = :id")
+  void updateAnalysis(Long id, List<MoveAnalysis> analysis);
 }

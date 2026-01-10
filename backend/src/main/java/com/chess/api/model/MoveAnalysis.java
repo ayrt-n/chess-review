@@ -8,6 +8,7 @@ import com.github.bhlangonijr.chesslib.Side;
 public class MoveAnalysis implements Serializable {
   private String san;
   private String uci;
+  private String fen;
   private Side side;
 
   private String bestUci;
@@ -40,6 +41,14 @@ public class MoveAnalysis implements Serializable {
 
   public void setUci(String uci) {
     this.uci = uci;
+  }
+
+  public String getFen() {
+    return fen;
+  }
+
+  public void setFen(String fen) {
+    this.fen = fen;
   }
 
   public Side getSide() {
