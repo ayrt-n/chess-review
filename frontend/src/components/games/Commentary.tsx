@@ -88,17 +88,26 @@ function Commentary({ move }: { move: MoveAnalysis | null }) {
     </span>
   </>
 
+  const hasCommentary = () => { return !!move?.commentary };
+
   return (
-    <div className="bg-white text-zinc-800 p-4 rounded-lg flex items-center justify-between flex-wrap">
-      <div className="flex flex-1 gap-1 items-center">
-        {getClassificationComponent()}
-        <div className="font-bold break-words">
-          {moveSummary}
+    <div className="bg-white text-zinc-800 p-4 rounded-lg">   
+      <div className="flex items-center justify-between flex-wrap">
+        <div className="flex flex-1 gap-1 items-center">
+          {getClassificationComponent()}
+          <div className="font-bold break-words">
+            {moveSummary}
+          </div>
+        </div>
+        <div className="bg-zinc-200 py-1 px-2 rounded-md text-sm font-bold">
+          {getEval()}
         </div>
       </div>
-      <div className="bg-zinc-200 py-1 px-2 rounded-md text-sm font-bold">
-        {getEval()}
-      </div>
+      { hasCommentary() &&
+        <div className="mt-2">
+          {move?.commentary}
+        </div>
+      }
     </div>
   );
 }
