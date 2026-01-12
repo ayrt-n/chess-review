@@ -8,14 +8,14 @@ This data is authoritative and must be used as the sole source of truth.
 
 Each object contains:
 - moveNumber: Integer
-- uci: String (move played)
+- san: String (move played)
 - side: "WHITE" or "BLACK"
 - fenBefore: FEN string before the move
 - classification: BRILLIANT | BEST | GREAT | GOOD | MISS | INACCURACY | MISTAKE | BLUNDER
 - evalBefore: Engine evaluation before the move
 - evalAfter: Engine evaluation after the move
-- pvBefore: Best continuation before the move was made (what the engine would have played before the move was made)
-- pvAfter: Best response after the move was made (what the engine plays in response to the move that was made)
+- pvSanBefore: Best continuation before the move was made in san notation (what the engine would have played before the move was made)
+- pvSanAfter: Best response after the move was made in san notation (what the engine plays in response to the move that was made)
 
 INSTRUCTIONS:
 - Generate commentary strictly following the system prompt rules

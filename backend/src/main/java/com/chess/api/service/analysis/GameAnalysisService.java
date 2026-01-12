@@ -6,11 +6,14 @@ import jakarta.persistence.EntityNotFoundException;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+
 import com.chess.api.model.AnalysisStatus;
 import com.chess.api.model.Game;
 import com.chess.api.model.MoveAnalysis;
 import com.chess.api.model.analysis.StockfishEvaluation;
 import com.chess.api.respository.GameRepository;
+import com.chess.api.service.MoveNotationConverter;
 import com.chess.api.service.commentary.CommentaryPublisher;
 import com.github.bhlangonijr.chesslib.Board;
 import com.github.bhlangonijr.chesslib.Side;
@@ -23,12 +26,14 @@ public class GameAnalysisService {
   private final StockfishClientFactory stockfishClientFactory;
   private final MoveClassifier moveClassifier;
   private final CommentaryPublisher commentaryPublisher;
+  private final MoveNotationConverter moveNotationConverter;
 
-  public GameAnalysisService(GameRepository gameRepository, StockfishClientFactory stockfishClientFactory, MoveClassifier moveClassifier, CommentaryPublisher commentaryPublisher) {
+  public GameAnalysisService(GameRepository gameRepository, StockfishClientFactory stockfishClientFactory, MoveClassifier moveClassifier, CommentaryPublisher commentaryPublisher, MoveNotationConverter moveNotationConverter) {
     this.gameRepository = gameRepository;
     this.stockfishClientFactory = stockfishClientFactory;
     this.moveClassifier = moveClassifier;
     this.commentaryPublisher = commentaryPublisher;
+    this.moveNotationConverter = moveNotationConverter;
   }
 
   public void analyzeGame(Long gameId) {
@@ -59,10 +64,15 @@ public class GameAnalysisService {
         movesPlayed.add(move.getUci());
         StockfishEvaluation currEval = move.getUci().equals(lastEval.getBestUci()) ? bestEval : stockfishClient.evaluate(movesPlayed, sideToMove);
 
+        List<String> condensedPvUci = lastEval.getPvUci().stream().limit(5).collect(Collectors.toList());
+        List<String> condensedPvSan = moveNotationConverter.uciToSan(condensedPvUci, move.getFen());
+
         move.setEvalCp(currEval.getCp());
         move.setEvalMate(currEval.getMate());
         move.setBestUci(lastEval.getBestUci());
-        move.setPvUci(lastEval.getPvUci());
+        move.setBestSan(moveNotationConverter.uciToSan(lastEval.getBestUci(), move.getFen()));
+        move.setPvUci(condensedPvUci);
+        move.setPvSan(condensedPvSan);
         move.setClassification(moveClassifier.classify(currEval, bestEval));
 
         lastEval = currEval;

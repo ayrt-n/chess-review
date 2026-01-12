@@ -12,7 +12,9 @@ public class MoveAnalysis implements Serializable {
   private Side side;
 
   private String bestUci;
+  private String bestSan;
   private List<String> pvUci;
+  private List<String> pvSan;
 
   private Integer evalCp;
   private Integer evalMate;
@@ -67,12 +69,28 @@ public class MoveAnalysis implements Serializable {
     this.bestUci = bestUci;
   }
 
+  public String getBestSan() {
+    return bestSan;
+  }
+
+  public void setBestSan(String bestSan) {
+    this.bestSan = bestSan;
+  }
+
   public List<String> getPvUci() {
     return pvUci;
   }
 
   public void setPvUci(List<String> pvUci) {
     this.pvUci = pvUci;
+  }
+
+  public List<String> getPvSan() {
+    return pvSan;
+  }
+
+  public void setPvSan(List<String> pvSan) {
+    this.pvSan = pvSan;
   }
 
   public Integer getEvalCp() {

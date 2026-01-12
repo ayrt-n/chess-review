@@ -8,26 +8,26 @@ import com.github.bhlangonijr.chesslib.Side;
 
 public record MoveContext(
   int moveNumber,
-  String uci,
+  String san,
   Side side,
   String fenBefore,
   MoveClassification classification,
   Evaluation evalBefore,
   Evaluation evalAfter,
-  List<String> pvBefore,
-  List<String> pvAfter
+  List<String> pvSanBefore,
+  List<String> pvSanAfter
 ) {
   public MoveContext(int moveNumber, MoveAnalysis previousMove, MoveAnalysis currentMove, MoveAnalysis nextMove) {
     this(
       moveNumber,
-      currentMove.getUci(),
+      currentMove.getSan(),
       currentMove.getSide(),
       currentMove.getFen(),
       currentMove.getClassification(),
       (previousMove == null) ? null : new Evaluation(previousMove.getEvalCp(), previousMove.getEvalMate()),
       new Evaluation(currentMove.getEvalCp(), currentMove.getEvalMate()),
-      currentMove.getPvUci(),
-      (nextMove == null) ? null : nextMove.getPvUci()
+      currentMove.getPvSan(),
+      (nextMove == null) ? null : nextMove.getPvSan()
     );
   }
 }
