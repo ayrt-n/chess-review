@@ -11,11 +11,12 @@ Each object contains:
 - san: String (move played)
 - side: "WHITE" or "BLACK"
 - fenBefore: FEN string before the move
+- fenAfter: FEN string after the move
 - classification: BRILLIANT | BEST | GREAT | GOOD | MISS | INACCURACY | MISTAKE | BLUNDER
-- evalBefore: Engine evaluation before the move
-- evalAfter: Engine evaluation after the move
-- pvSanBefore: Best continuation before the move was made in san notation (what the engine would have played before the move was made)
-- pvSanAfter: Best response after the move was made in san notation (what the engine plays in response to the move that was made)
+- evalBefore: Object with {{ cp: Integer (centipawns), mate: Integer (moves to mate) }} - evaluation before the move
+- evalAfter: Object with {{ cp: Integer (centipawns), mate: Integer (moves to mate) }} - evaluation after the move
+- pvSanBefore: List of strings - principal variation (best line) before the move was made
+- pvSanAfter: List of strings - principal variation (best response) after the move was made
 
 INSTRUCTIONS:
 - Generate commentary strictly following the system prompt rules
