@@ -7,6 +7,7 @@ import { useChessAnalysis } from "../../hooks/useChessAnalysis";
 import type { MoveClassification } from "../../types/api";
 import PlaybackButtons from "./PlaybackButtons";
 import Commentary from "./Commentary";
+import GameSkeleton from "./GameSkeleton";
 
 const ARROW_COLORS: Record<MoveClassification, string> = {
   'BRILLIANT': 'oklch(74.6% 0.16 232.661 / 30%)',
@@ -49,7 +50,7 @@ function Game() {
     };
   }, [currentAnalysis]);
 
-  if (loading) return <div className="p-7">Loading...</div>;
+  if (loading) return <GameSkeleton />;
   if (error) return <div className="p-7 text-red-500">Error: {error}</div>;
   if (!game) return <div className="p-7">Game not found</div>;
 
@@ -73,7 +74,7 @@ function Game() {
 
         <EvalBar move={currentAnalysis} />
 
-        <div className="bg-green-500 aspect-square">
+        <div className="aspect-square">
           <Chessboard options={chessboardOptions} />
         </div>
 

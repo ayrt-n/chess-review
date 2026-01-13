@@ -29,6 +29,12 @@
   ::-webkit-scrollbar-thumb:hover {
     @apply bg-zinc-600;
   }
+
+  @keyframes shimmer {
+    100% {
+      transform: translateX(100%);
+    }
+  }
 }
 
 body {
