@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import GamesTable from "./GamesTable";
 import type { GameSummary } from "../../types/api";
+import GamesListSkeleton from "./GamesListSkeleton";
 
 function Games() {
   const [games, setGames] = useState<GameSummary[]>([]);
@@ -25,6 +26,9 @@ function Games() {
 
   const numGames = (games === null) ? 0 : games.length;
 
+  if (loading) return <GamesListSkeleton />
+  if (error) return <div className="text-red-500">Error: {error}</div>
+
   return (
     <div className="p-7 w-full max-w-[900px]">
       <header className="mb-4">
@@ -33,9 +37,7 @@ function Games() {
         </h1>
       </header>
 
-      {!loading && !error && (
-        <GamesTable games={games} />
-      )}
+      <GamesTable games={games} />
     </div>
   );
 }
