@@ -37,7 +37,9 @@
   }
 }
 
+html,
 body {
   margin: 0;
   font-family: var(--font-body);
+  background-color: theme(--color-zinc-800);
 }
