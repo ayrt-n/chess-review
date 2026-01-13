@@ -6,6 +6,7 @@ import Games from './components/games/Games'
 import NewGame from './components/games/NewGame'
 import Game from './components/games/Game'
 import MainLayout from './components/layouts/MainLayout'
+import NotFoundPage from './components/errors/NotFoundPage'
 
 const router = createBrowserRouter([
   {
@@ -27,6 +28,10 @@ const router = createBrowserRouter([
       {
         path: "games/:gameId",
         Component: Game
+      },
+      {
+        path: "*",
+        Component: NotFoundPage
       }
     ]
   }
