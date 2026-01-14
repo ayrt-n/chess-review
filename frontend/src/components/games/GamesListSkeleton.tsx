@@ -1,6 +1,5 @@
 import SkeletonLoader from "../SkeletonLoader";
 
-
 function GamesListSkeleton() {
   const gameListItem = () => {
     return (

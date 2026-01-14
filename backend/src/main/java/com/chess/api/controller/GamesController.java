@@ -13,6 +13,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import jakarta.validation.Valid;
 
+import com.chess.api.dto.AnalysisStatusResponse;
 import com.chess.api.dto.GameRequest;
 import com.chess.api.dto.GameResponse;
 import com.chess.api.dto.GameSummary;
@@ -44,5 +45,11 @@ public class GamesController {
   public GameSummary create(@Valid @RequestBody GameRequest request) {
     Game game = gameService.create(request);
     return new GameSummary(game);
+  }
+
+  @GetMapping("/{id}/status")
+  public AnalysisStatusResponse status(@PathVariable Long id) {
+    Game game = gameService.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Game not found"));
+    return new AnalysisStatusResponse(game.getAnalysisStatus());
   }
 }

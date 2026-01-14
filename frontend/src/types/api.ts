@@ -1,6 +1,6 @@
 // Enums
 
-export type AnalysisStatus = 'PENDING' | 'PROCESSING' | 'COMPLETED' | 'FAILED';
+export type AnalysisStatus = 'PENDING' | 'PROCESSING' | 'REVIEWING' | 'COMPLETED' | 'FAILED';
 
 export type MoveClassification =
   | 'BRILLIANT'
@@ -19,9 +19,12 @@ export type Side = 'WHITE' | 'BLACK';
 export interface MoveAnalysis {
   san: string;
   uci: string;
+  fen: string | null;
   side: Side | null;
   bestUci: string | null;
+  bestSan: string | null;
   pvUci: string[] | null;
+  pvSan: string[] | null;
   evalCp: number | null;
   evalMate: number | null;
   commentary: string | null;
@@ -78,5 +81,13 @@ export interface Pgn {
 }
 
 export interface GameAnalysisMessage {
+  gameId: number;
+}
+
+export interface AnalysisStatusResponse {
+  analysisStatus: AnalysisStatus;
+}
+
+export interface CommentaryMessage {
   gameId: number;
 }

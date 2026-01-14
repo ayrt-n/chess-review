@@ -8,6 +8,7 @@ import type { MoveClassification } from "../../types/api";
 import PlaybackButtons from "./PlaybackButtons";
 import Commentary from "./Commentary";
 import GameSkeleton from "./GameSkeleton";
+import AnalysisStatusBanner from "./AnalysisStatusBanner";
 
 const ARROW_COLORS: Record<MoveClassification, string> = {
   'BRILLIANT': 'oklch(74.6% 0.16 232.661 / 30%)',
@@ -22,7 +23,7 @@ const ARROW_COLORS: Record<MoveClassification, string> = {
 
 function Game() {
   const { gameId } = useParams();
-  const { game, currentFen, currentAnalysis, navigation, loading, error } = useChessAnalysis(gameId);
+  const { game, currentFen, currentAnalysis, navigation, loading, error, isPolling, analysisStatus } = useChessAnalysis(gameId);
 
   const arrows = useMemo(() => {
     if (!currentAnalysis?.bestUci) return [];
@@ -53,6 +54,14 @@ function Game() {
   if (loading) return <GameSkeleton />;
   if (error) return <div className="p-7 text-red-500">Error: {error}</div>;
   if (!game) return <div className="p-7">Game not found</div>;
+  if (analysisStatus === 'FAILED') {
+    return (
+      <div className="p-7">
+        <div className="text-red-400 text-xl mb-2">Analysis failed</div>
+        <p className="text-zinc-400">There was an error analyzing this game. Please try again.</p>
+      </div>
+    );
+  }
 
   const chessboardOptions = {
     position: currentFen,
@@ -63,51 +72,57 @@ function Game() {
   };
 
   return (
-    <div className="p-7 md:gap-6 md:flex overflow-hidden flex">
-      <div className="grid grid-cols-[30px_auto] gap-4 mb-8 max-h-[80vh] w-full flex-1 max-w-[80vh]">
-        <div className="col-start-2">
-          <div className="flex items-center gap-2">
-            <div className="bg-zinc-600 w-3 h-3 border border-zinc-500" />  
-            {game.black} <span className="text-zinc-500">({game.blackElo})</span>
+    <div className="p-7 max-w-4xl">
+      {isPolling && analysisStatus && <AnalysisStatusBanner status={analysisStatus} />}
+
+      <div className="md:gap-6 md:flex overflow-hidden flex flex-col items-center">
+        <div className="flex items-center gap-6 w-full">
+          <div className="grid grid-cols-[30px_auto] gap-4 mb-8 max-h-[75vh] w-full flex-1">
+            <div className="col-start-2">
+              <div className="flex items-center gap-2">
+                <div className="bg-zinc-600 w-3 h-3 border border-zinc-500" />
+                {game.black} <span className="text-zinc-500">({game.blackElo})</span>
+              </div>
+            </div>
+  
+            <EvalBar move={currentAnalysis} />
+  
+            <div className="aspect-square">
+              <Chessboard options={chessboardOptions} />
+            </div>
+  
+            <div className="col-start-2">
+              <div className="flex items-center gap-2">
+                <div className="bg-white w-3 h-3 border border-zinc-500" />
+                {game.white} <span className="text-zinc-500">({game.whiteElo})</span>
+              </div>
+            </div>
+          </div>
+        
+          <div className="bg-zinc-900 max-h-[75vh] w-[300px] rounded-md overflow-hidden flex flex-col">
+            <h2 className="bg-zinc-950 w-full px-4 py-2 font-bold shrink-0">
+              Game History
+            </h2>
+  
+            <div className="shrink-0 py-2 px-4 transition-all">
+              <Commentary move={currentAnalysis} />
+            </div>
+  
+            <div className="flex-1 overflow-y-auto min-h-0">
+              <MoveHistory moves={game.analysis} onMoveClick={navigation.goToMove} />
+            </div>
+  
+            <div className="shrink-0">
+              <PlaybackButtons
+                reset={navigation.reset}
+                prev={navigation.prev}
+                next={navigation.next}
+                end={navigation.end}
+              />
+            </div>
           </div>
         </div>
-
-        <EvalBar move={currentAnalysis} />
-
-        <div className="aspect-square">
-          <Chessboard options={chessboardOptions} />
         </div>
-
-        <div className="col-start-2">
-          <div className="flex items-center gap-2">
-            <div className="bg-white w-3 h-3 border border-zinc-500" />
-            {game.white} <span className="text-zinc-500">({game.whiteElo})</span>
-          </div>
-        </div>
-      </div>
-
-      <div className="bg-zinc-900 max-h-[80vh] w-[300px] rounded-md overflow-hidden flex flex-col">
-        <h2 className="bg-zinc-950 w-full px-4 py-2 font-bold shrink-0">
-          Game History
-        </h2>
-
-        <div className="shrink-0 py-2 px-4 transition-all">
-          <Commentary move={currentAnalysis} />
-        </div>
-
-        <div className="flex-1 overflow-y-auto min-h-0">
-          <MoveHistory moves={game.analysis} onMoveClick={navigation.goToMove} />
-        </div>
-
-        <div className="shrink-0">
-          <PlaybackButtons
-            reset={navigation.reset}
-            prev={navigation.prev}
-            next={navigation.next}
-            end={navigation.end}
-          />
-        </div>
-      </div>
     </div>
   );
 }
