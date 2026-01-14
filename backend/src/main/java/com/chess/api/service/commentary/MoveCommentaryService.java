@@ -80,7 +80,7 @@ public class MoveCommentaryService {
       }
 
       gameRepository.updateAnalysis(gameId, moves);
-      // gameRepository.updateStatus(gameId, AnalysisStatus.COMPLETED);
+      gameRepository.updateStatus(gameId, AnalysisStatus.COMPLETED);
     } catch (Exception e) {
       e.printStackTrace();
       gameRepository.updateStatus(gameId, AnalysisStatus.FAILED);
