@@ -52,8 +52,14 @@ function Game() {
   }, [currentAnalysis]);
 
   if (loading) return <GameSkeleton />;
-  if (error) return <div className="p-7 text-red-500">Error: {error}</div>;
-  if (!game) return <div className="p-7">Game not found</div>;
+  if (error || !game) {
+    return (
+      <div className="p-7">
+        <div className="text-red-400 text-xl mb-2">Failed to load game</div>
+        <p className="text-zinc-400">{error || "No game found"}</p>
+      </div>
+    )
+  }
   if (analysisStatus === 'FAILED') {
     return (
       <div className="p-7">
@@ -72,10 +78,8 @@ function Game() {
   };
 
   return (
-    <div className="p-7 max-w-4xl">
-      {isPolling && analysisStatus && <AnalysisStatusBanner status={analysisStatus} />}
-
-      <div className="md:gap-6 md:flex overflow-hidden flex flex-col items-center">
+    <div className="p-7 max-w-4xl relative">
+      <div inert={isPolling} className={`flex items-center gap-6 w-full transition-all duration-700 ease-in-out ${isPolling ? "opacity-50 blur-[2px] pointer-events-none" : "opacity-100 blur-0"}`}>
         <div className="flex items-center gap-6 w-full">
           <div className="grid grid-cols-[30px_auto] gap-4 mb-8 max-h-[75vh] w-full flex-1">
             <div className="col-start-2">
@@ -122,7 +126,14 @@ function Game() {
             </div>
           </div>
         </div>
+      </div>
+      {isPolling && analysisStatus && (
+        <div className="absolute inset-0 flex items-center justify-center z-50 pointer-events-none">
+          <div className="pointer-events-auto">
+            <AnalysisStatusBanner status={analysisStatus} />
+          </div>
         </div>
+      )}
     </div>
   );
 }
