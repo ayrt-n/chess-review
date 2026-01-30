@@ -20,13 +20,13 @@ Upload a chess game in PGN format and get detailed analysis including:
 │   Frontend   │────▶│   Backend    │────▶│  PostgreSQL  │
 │    (React)   │     │ (Spring Boot)│     │              │
 └──────────────┘     └──────┬───────┘     └──────────────┘
-                           │
-              ┌────────────┼────────────┐
-              ▼            ▼            ▼
-        ┌──────────┐ ┌──────────┐ ┌──────────┐
-        │ RabbitMQ │ │ Stockfish│ │ Vertex AI│
-        │          │ │  Service │ │ (Gemini) │
-        └──────────┘ └──────────┘ └──────────┘
+                            │
+               ┌────────────┼────────────┐
+               ▼            ▼            ▼
+         ┌──────────┐ ┌──────────┐ ┌──────────┐
+         │ RabbitMQ │ │ Stockfish│ │ Vertex AI│
+         │          │ │  Service │ │ (Gemini) │
+         └──────────┘ └──────────┘ └──────────┘
 ```
 
 | Service | Description |
@@ -108,5 +108,3 @@ VERTEX_AI_MODEL=gemini-2.0-flash
 | Frontend | http://localhost:3000 |
 | Backend API | http://localhost:8080 |
 | RabbitMQ Console | http://localhost:15672 |
-| PostgreSQL | localhost:5432 |
-
