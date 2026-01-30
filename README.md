@@ -1,14 +1,17 @@
-# Chess Review
+# AI-Powered Chess Game Analysis and Review Tool
 
-A chess game analysis application that evaluates your games move-by-move using the Stockfish engine — similar to the game review features on Chess.com or Lichess.
+A chess game analysis application that evaluates your games move-by-move using Stockfish and generates AI-powered feedback — similar to the game review features on Chess.com or Lichess.
+
+![Chess Review Demo](demo/chess-demo.gif)
 
 ## What It Does
 
 Upload a chess game in PGN format and get detailed analysis including:
 
 - **Position evaluation** — centipawn scores and mate-in-N detection for each move
-- **Move classification** — identifies brilliant moves, great moves, good moves, inaccuracies, mistakes, and blunders
+- **Move classification** — identifies brilliant moves, great moves, best moves, good moves, inaccuracies, mistakes, blunders, and missed opportunities
 - **Best move suggestions** — shows the engine's recommended line at each position
+- **AI commentary** — human-readable explanations for suboptimal moves, powered by Google Gemini
 
 ## Architecture
 
@@ -17,24 +20,43 @@ Upload a chess game in PGN format and get detailed analysis including:
 │   Frontend   │────▶│   Backend    │────▶│  PostgreSQL  │
 │    (React)   │     │ (Spring Boot)│     │              │
 └──────────────┘     └──────┬───────┘     └──────────────┘
-                            │
-                      ┌─────┴─────┐
-                      ▼           ▼
-                ┌──────────┐ ┌──────────────┐
-                │ RabbitMQ │ │  Stockfish   │
-                │          │ │   Service    │
-                └──────────┘ └──────────────┘
+                           │
+              ┌────────────┼────────────┐
+              ▼            ▼            ▼
+        ┌──────────┐ ┌──────────┐ ┌──────────┐
+        │ RabbitMQ │ │ Stockfish│ │ Vertex AI│
+        │          │ │  Service │ │ (Gemini) │
+        └──────────┘ └──────────┘ └──────────┘
 ```
 
 | Service | Description |
 |---------|-------------|
-| **Frontend** | React/TypeScript web interface |
-| **Backend** | Java/Spring Boot API — handles PGN parsing, game storage, and analysis orchestration |
-| **PostgreSQL** | Stores games and analysis results |
-| **RabbitMQ** | Message queue for async game analysis |
-| **Stockfish Service** | Python TCP bridge exposing the Stockfish chess engine |
+| **Frontend** | React 19 / TypeScript / Vite / Tailwind CSS web interface with interactive chessboard |
+| **Backend** | Java 21 / Spring Boot 4 API — handles PGN parsing, game storage, analysis orchestration, and AI commentary |
+| **PostgreSQL** | Stores games and analysis results (JSONB) |
+| **RabbitMQ** | Message queues for async game analysis and commentary generation |
+| **Stockfish Service** | Python asyncio TCP bridge exposing the Stockfish chess engine |
+| **Vertex AI** | Google Gemini model for generating human-readable move commentary |
+
+## Analysis Pipeline
+
+When you upload a PGN, the following async pipeline runs:
+
+1. **Parse & Save** — Backend parses the PGN, extracts metadata, and saves to PostgreSQL
+2. **Queue Analysis** — Game ID is published to the analysis queue
+3. **Stockfish Analysis** — Consumer evaluates each position, classifies moves, and identifies best lines
+4. **Queue Commentary** — After analysis completes, game ID is published to the commentary queue
+5. **AI Commentary** — Consumer sends suboptimal moves (inaccuracies, mistakes, blunders, misses) to Gemini for human-readable explanations
+6. **Complete** — Frontend polls for status and displays the full analysis with commentary
 
 ## Getting Started
+
+### Prerequisites
+
+- Docker and Docker Compose
+- Google Cloud credentials for AI commentary
+
+### Quick Start
 
 The easiest way to get started is with the included start script:
 
@@ -57,11 +79,26 @@ This will check dependencies, create a `.env` file with sensible defaults if nee
 
 Alternatively, you can run Docker Compose directly:
 
-1. Copy `.env.example` to `.env` and configure your environment variables
-2. Run:
+1. Create a `.env` file with database and RabbitMQ credentials
+2. Add `vertex-ai-key.json` for AI commentary
+3. Run:
 
 ```bash
 docker compose up --build
+```
+
+### AI Commentary Setup
+
+To enable AI-powered commentary:
+
+1. Create a Google Cloud project with Vertex AI API enabled
+2. Create a service account with Vertex AI User role
+3. Download the JSON key and save as `vertex-ai-key.json` in the project root
+
+```
+VERTEX_AI_PROJECT_ID=your-project-id
+VERTEX_AI_LOCATION=us-central1
+VERTEX_AI_MODEL=gemini-2.0-flash
 ```
 
 ### Access Points
