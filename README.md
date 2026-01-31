@@ -95,12 +95,6 @@ To enable AI-powered commentary:
 2. Create a service account with Vertex AI User role
 3. Download the JSON key and save as `vertex-ai-key.json` in the project root
 
-```
-VERTEX_AI_PROJECT_ID=your-project-id
-VERTEX_AI_LOCATION=us-central1
-VERTEX_AI_MODEL=gemini-2.0-flash
-```
-
 ### Access Points
 
 | Service | URL |
