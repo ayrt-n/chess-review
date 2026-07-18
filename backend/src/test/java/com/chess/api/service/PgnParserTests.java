@@ -98,7 +98,7 @@ public class PgnParserTests {
     assertEquals(null, pgnResult.black());
     assertEquals(0, pgnResult.whiteElo());
     assertEquals(0, pgnResult.blackElo());
-    assertEquals(null, pgnResult.result());
+    assertEquals("*", pgnResult.result());
     assertEquals(null, pgnResult.timeControl());
     assertEquals(null, pgnResult.gameDate());
     assertEquals("", pgnResult.moveText());

@@ -1,5 +1,7 @@
 # AI-Powered Chess Game Analysis and Review Tool
 
+[![CI](https://github.com/ayrt-n/chess-review/actions/workflows/ci.yml/badge.svg)](https://github.com/ayrt-n/chess-review/actions/workflows/ci.yml)
+
 A chess game analysis application that evaluates your games move-by-move using Stockfish and generates AI-powered feedback — similar to the game review features on Chess.com or Lichess.
 
 ![Chess Review Demo](demo/chess-demo.gif)
